@@ -1,14 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { TextInput, Button, StyleSheet, Text, View } from 'react-native';
+
+import aws_exports from './aws-exports';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import { Connect } from 'aws-amplify-react-native';
+import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
 
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
-
-import Camera from './Components/Camera'
-import Deck from './Components/Deck'
-import AlbumList from './Components/AlbumList'
 import ListAlbum from './Components/ListAlbum'
-import AlbumComponent from './Components/AlbumComponent'
+import SharedListAlbum from './Components/SharedListAlbum'
+import CameraNew from './Components/CameraNew'
+import NewCardDeck from './Components/NewCardDeck'
+import NewAlbumComponent from './Components/NewAlbumComponent'
+import { throws } from 'assert';
 const styles = StyleSheet.create({
   slideDefault: {
     flex: 1,
@@ -18,26 +23,48 @@ const styles = StyleSheet.create({
   },
   slideSwipe: {
     flex: 1,
-    backgroundColor: '#9DD6EB'
+    backgroundColor: 'white'
   },
   text: {
     color: 'white',
     fontSize: 30,
     fontWeight: 'bold'
+  },
+  containero: {
+    flex: 1,
+    backgroundColor: '#fff',
   }
 })
-export default class App extends React.Component {
-
-  constructor() {
-    super()
-    this.state = {
+class App extends React.Component {
+    state = {
       outerScrollEnabled: true,
-      clicked: false
+      deckView: false,
+      albums: [],
+      images:[],
+      album:false,
+      albumImages:[],
+      addAlbumView: false,
+      viewAlbumView: false,
+      selectedAlbum: false,
+      selectedImages: [],
+      albumName:false
     }
-  }
 
-  toggleDeck = () => this.setState({clicked: !this.state.clicked})
+  toggleDeck = () => this.setState({deckView: !this.state.deckView})
+  toggleCreateAlbumView = () => this.setState({addAlbumView: !this.state.addAlbumView})
 
+
+  getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync().then(albums => this.setState({ albums }))
+  getImages = () =>  Expo.MediaLibrary.getAssetsAsync().then(images=> this.setState({images}))
+  getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album=> this.setState({album}))
+  getAlbumImages = () =>  Expo.MediaLibrary.getAssetsAsync({first:10, album: this.state.album.id}).then(images=> this.setState({albumImages: images.assets}))
+  deselectAlbum = () => this.setState({album:!this.state.album, albumImages:[]})
+  albumFalse = () => this.setState({album: false})
+  selectAlbum = (album) => this.setState({album: album})
+  deleteAlbum = (album) => Expo.MediaLibrary.deleteAlbumsAsync(album, true).then(resp=> this.getAlbums())
+
+  
+  
   verticalScroll = (index) => {
     if (index !== 1) {
       this.setState({
@@ -51,52 +78,102 @@ export default class App extends React.Component {
     }
   }
 
+//   componentDidMount () {
+//     this.getAlbums()
+// }
+
+  // componentDidUpdate(nextProps, nextState){
+  // if (nextState.albums!==this.state.albums){
+  //   this.getAlbums()
+  // }}
+  // if (nextState.album!==this.state.album &&this.state.album===false){
+  // this.getAlbum()
+  // }
+
+  // }
 
   render() {
     return (
-      this.state.clicked?
-              <View style={styles.slideSwipe}>
-                <Deck></Deck>
-              </View>
-      :
-      <Container>
-        <Content>
-          <Swiper
-            loop={false}
-            showsPagination={false}
-            index={0}
-            scrollEnabled={this.state.outerScrollEnabled}
-          >
-            <View style={styles.slideSwipe}>
-              <AlbumComponent></AlbumComponent>
-            </View>
-            <View style={styles.slideSwipe}>
-              <ListAlbum></ListAlbum>
-            </View>
-            <Swiper
-              loop={false}
-              showsPagination={false}
-              horizontal={false}
-              index={1}
-              onIndexChanged={(index) => this.verticalScroll(index)}
-            >
-              <View style={styles.slideDefault}>
-                <Text style={styles.text}>Search</Text>
-              </View>
+      this.state.deckView?
+                        <View style={styles.slideSwipe}>
+                          <NewCardDeck 
+                          toggleCreateAlbumView={this.toggleCreateAlbumView}
+                          toggleDeck={this.toggleDeck}></NewCardDeck>
+                        </View>
+                        :
+                          this.state.album?
+                            <Container>
+              
+                                    <View style={styles.slideSwipe}>
+                                      <NewAlbumComponent album={this.state.album} images={this.state.albumImages} getImages={this.getAlbumImages} deselectAlbum={this.deselectAlbum}></NewAlbumComponent>
+                                    </View>
 
-              <View style={{ flex: 1 }}>
-                <Camera toggleDeck={this.toggleDeck}></Camera>
-              </View>
-              {/* <View style={styles.slideSwipe}>
-                <Deck></Deck>
-              </View> */}
-            </Swiper>
-            <View style={styles.slideDefault}>
-              <Text style={styles.text}>Stories</Text>
-            </View>
-          </Swiper>
-        </Content>
-      </Container>
-    );
+
+                            </Container>
+                          :
+                            <Container>
+
+                                <Swiper
+                                  loop={false}
+                                  showsPagination={false}
+                                  index={0}
+                                  bounces={false}
+                                  resistance={true}
+                                  resistanceRatio={0}
+                                  >                              
+
+                                  <View style={styles.slideSwipe}>
+                                    <ListAlbum getAlbums={this.getAlbums}
+                                    getAlbum={this.getAlbum}
+                                    album={this.state.album}
+                                    toggleDeck={this.toggleDeck}
+                                    toggleCreateAlbumView={this.toggleCreateAlbumView}
+                                    albums={this.state.albums}
+                                    selectAlbum={this.selectAlbum}
+                                    deselectAlbum={this.deselectAlbum}
+                                    deleteAlbum={this.deleteAlbum}
+                                    addAlbumView={this.state.addAlbumView}
+                                    state={this.state}>
+                                    </ListAlbum>
+                                  </View>
+                                  
+                                  <Swiper loop={false}
+                                  showsPagination={false}
+                                  index={0}
+                                  bounces={false}
+                                  resistance={true}
+                                  resistanceRatio={0}
+                                  >  
+                                  <CameraNew toggleDeck={this.toggleDeck}></CameraNew>
+                                  </Swiper>
+
+                                  <View style={styles.slideSwipe}>
+                                    <SharedListAlbum getAlbums={this.getAlbums}
+                                    getAlbum={this.getAlbum}
+                                    album={this.state.album}
+                                    toggleDeck={this.toggleDeck}
+                                    toggleCreateAlbumView={this.toggleCreateAlbumView}
+                                    albums={this.state.albums}
+                                    selectAlbum={this.selectAlbum}
+                                    deselectAlbum={this.deselectAlbum}
+                                    deleteAlbum={this.deleteAlbum}
+                                    addAlbumView={this.state.addAlbumView}
+                                    state={this.state}>
+                                    </SharedListAlbum>
+                                  </View>  
+                                  
+                                    
+
+                                </Swiper>
+                              </Container>
+            
+    )
   }
 }
+export default withAuthenticator(App, { includeGreetings: false });
+
+
+
+
+
+

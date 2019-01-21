@@ -1,32 +1,109 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Form, Item, Input, Label, Button, Text } from 'native-base';
-export default class FloatingLabelExample extends Component {
-  state={
-    albumName:false,
+import { Container, Header, Content, Form, Item, Input, Label, Button, Text, Left, Icon, Body, Title, Right } from 'native-base';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+
+
+
+class NewAlbum extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      albumName: ''
+    };
   }
 
-  createAlbum = () => Expo.MediaLibrary.createAlbumAsync('ok')
+  handleSubmit = async (event) => {
+    const NewAlbum = `mutation NewAlbum($name: String!) {
+          createAlbum(input: {name: $name}) {
+              id
+              name
+          }
+      }`;
+    try {
+      const result = await API.graphql(graphqlOperation(NewAlbum, { name: this.state.albumName }));
+      console.info(`Created album with id ${result.data.createAlbum.id}`);
+      this.setState({ albumName: ''});
+    }
+    catch (err) {
+      console.error('NewAlbum mutation failed', err);
+    }
+  }
+
+  render() {
+    return (
+      <Content>
+        <Header><Button full info onPress={()=>this.handleSubmit()}><Text>Add a new album</Text></Button></Header>
+        <Item regular >
+              <Input placeholder='Enter New Album Name'onChangeText={(e)=>(this.setState({albumName: e}))} />              
+        </Item>
+      </Content>
+    )
+  }
+}
+
+
+export default class FloatingLabelExample extends Component {
+
+  state = {albumName:false}
+
+  handleSubmit = async (event) => {
+    const NewAlbum = `mutation NewAlbum($name: String!) {
+          createAlbum(input: {name: $name}) {
+              id
+              name
+          }
+      }`;
+    try {
+      const result = await API.graphql(graphqlOperation(NewAlbum, { name: this.state.albumName }));
+      console.info(`Created album with id ${result.data.createAlbum.id}`);
+      this.setState({ albumName: ''});
+    }
+    catch (err) {
+      console.error('NewAlbum mutation failed', err);
+    }
+  }
+
+  createAlbum = () => Expo.MediaLibrary.createAlbumAsync(this.state.albumName)
                         .then(() => {
-                        console.log('Album created!');
+                        this.props.toggleCreateAlbumView()
+                        this.props.toggleDeck()
+                        this.props.getAlbums()
+                        this.handleSubmit()
+                        alert(this.state.albumName + ' created')
                         })
                         .catch(error => {
                         console.log('err', error);
                         });
+                        
   render() {
     return (
       <Container>
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>New Album Name</Label>
-              <Input onChange={(e)=>this.setState({albumName: e.target.value})} />
-              {console.log(this.state.albumName)}
-            </Item>
-            <Button full info onPress={()=>(this.createAlbum())}>
-              <Text>Create</Text>
+      <Header>
+          <Left>
+          </Left>
+          <Body>
+            <Title>Create Album </Title>
+          </Body>
+          <Right>
+            <Button transparent onPress={()=>this.props.toggleDeck()}>
+              <Text>Cancel</Text>
             </Button>
-          </Form>
+          </Right>
+        </Header>
+        <Header transparent />
+        <Container>
+        <Content>
+           <Item regular >
+              <Input placeholder='Enter New Album Name'onChangeText={(e)=>(this.setState({albumName: e}))} />              
+            </Item>
+            <Header transparent/>
+            <Body flexDirection= "row" justifyContent= "center">
+            <Button block  info onPress={()=>(this.createAlbum())}>
+              <Text>Create New Album</Text>
+            </Button>
+            </Body>
         </Content>
+        </Container>
       </Container>
     );
   }
