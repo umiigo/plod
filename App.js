@@ -1,10 +1,10 @@
 import React from 'react';
 import { TextInput, Button, StyleSheet, Text, View } from 'react-native';
 
-import aws_exports from './aws-exports';
+// import aws_exports from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react-native';
-import { Connect } from 'aws-amplify-react-native';
-import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
+// import { Connect } from 'aws-amplify-react-native';
+// import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
 
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
@@ -13,7 +13,7 @@ import SharedListAlbum from './Components/SharedListAlbum'
 import CameraNew from './Components/CameraNew'
 import NewCardDeck from './Components/NewCardDeck'
 import NewAlbumComponent from './Components/NewAlbumComponent'
-import { throws } from 'assert';
+// import { throws } from 'assert';
 const styles = StyleSheet.create({
   slideDefault: {
     flex: 1,
@@ -54,8 +54,10 @@ class App extends React.Component {
   toggleCreateAlbumView = () => this.setState({addAlbumView: !this.state.addAlbumView})
 
 
-  getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync().then(albums => this.setState({ albums }))
+  getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync(100).then(albums => this.setState({ albums }))
+
   getImages = () =>  Expo.MediaLibrary.getAssetsAsync().then(images=> this.setState({images}))
+
   getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album=> this.setState({album}))
   getAlbumImages = () =>  Expo.MediaLibrary.getAssetsAsync({first:10, album: this.state.album.id}).then(images=> this.setState({albumImages: images.assets}))
   deselectAlbum = () => this.setState({album:!this.state.album, albumImages:[]})
@@ -147,7 +149,7 @@ class App extends React.Component {
                                   <CameraNew toggleDeck={this.toggleDeck}></CameraNew>
                                   </Swiper>
 
-                                  <View style={styles.slideSwipe}>
+                                  {/* <View style={styles.slideSwipe}>
                                     <SharedListAlbum getAlbums={this.getAlbums}
                                     getAlbum={this.getAlbum}
                                     album={this.state.album}
@@ -160,8 +162,8 @@ class App extends React.Component {
                                     addAlbumView={this.state.addAlbumView}
                                     state={this.state}>
                                     </SharedListAlbum>
-                                  </View>  
-                                  
+                                  </View>   */}
+                                  {/* This to be reinabled when shared albums */}
                                     
 
                                 </Swiper>
@@ -170,8 +172,8 @@ class App extends React.Component {
     )
   }
 }
-export default withAuthenticator(App, { includeGreetings: false });
-
+// export default withAuthenticator(App, { includeGreetings: false }); <----------reinable for shared albums
+export default App
 
 
 

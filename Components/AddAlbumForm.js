@@ -68,7 +68,7 @@ export default class FloatingLabelExample extends Component {
                         this.props.toggleCreateAlbumView()
                         this.props.toggleDeck()
                         this.props.getAlbums()
-                        this.handleSubmit()
+                        // this.handleSubmit()    < --------- Remember to reinable when adding shared albums
                         alert(this.state.albumName + ' created')
                         })
                         .catch(error => {

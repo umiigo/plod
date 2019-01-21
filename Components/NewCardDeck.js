@@ -11,16 +11,19 @@ import Card from './newcard'
 
 export default class App extends Component {
   getUnsortedAlbum = () => Expo.MediaLibrary.getAlbumAsync('Unsorted').then(album=> this.setState({album}))
+
   selectAlbum = (album) => this.setState({selectedAlbum: album})
+
   getImages = () =>  Expo.MediaLibrary.getAssetsAsync({album: this.state.album.id}).then(images=> this.setState({images: images.assets}))
   getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync().then(albums => this.setState({ albums }))
   state = {
     imageIndex: 0,
     album:[],
-    selectedAlbum:[],
+    selectedAlbum: [],
     images:[],
     albums:[]
   }
+
   componentDidMount(){ 
        this.getUnsortedAlbum().then(resp=>this.getImages())
        this.getAlbums()
@@ -47,8 +50,16 @@ export default class App extends Component {
       }
     }
 
+    albumTitle =(title)=>{
+      return title.length>10? `${title.slice(0,9)}...` : title
+    }
+
+  albumMainTitle = (title) => {
+    return title.length > 17 ? `${title.slice(0, 16)}...` : title
+  }
+
   render() {
-    const {imageIndex, album} = this.state
+    const {imageIndex, album, selectedAlbum} = this.state
     return (
     <Container>
       <View style={{flex:1}}>
@@ -56,7 +67,10 @@ export default class App extends Component {
           <Content>
             <Header transparent>
                 <Body>
-                    <Title>Add Photos to Album</Title>
+                  <Title>
+                   { selectedAlbum.length>0 ? `Add Photos to ${this.albumMainTitle(selectedAlbum.title)}` : "Select an album" }
+                    </Title>
+                    
                 </Body>
                 <Right>
                     <Button transparent onPress={()=> this.props.toggleDeck()}>
@@ -102,7 +116,7 @@ export default class App extends Component {
                         <TouchableOpacity>
                           <Thumbnail circle style={{ marginHorizontal: 15, borderColor: 'green', borderWidth: 6, backgroundColor:'green' }}/>
                             {/* source={require('../assets/1.jpg')} /> */}
-                          <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}>{album.title}</Text>
+                          <Text style={ { justifyContent: 'space-between', alignItems: 'center', textAlign: 'center' } }>{ this.albumTitle(album.title)}</Text>
                         </TouchableOpacity>
                       </Content>
                       :
@@ -110,7 +124,7 @@ export default class App extends Component {
                         <TouchableOpacity onPress={()=>this.selectAlbum(album)}>
                           <Thumbnail circle style={{ marginHorizontal: 15, borderColor: 'grey', borderWidth: 2, backgroundColor:'grey' }}/>
                             {/* source={require('../assets/1.jpg')} /> */}
-                          <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}>{album.title}</Text>
+                          <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}>{this.albumTitle(album.title)}</Text>
                         </TouchableOpacity>
                       </Content>
                     )}

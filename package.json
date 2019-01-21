@@ -9,7 +9,7 @@
   "dependencies": {
     "amplify": "^0.0.11",
     "assert": "^1.4.1",
-    "aws-amplify": "^1.1.18",
+    "aws-amplify": "^1.1.19",
     "aws-amplify-react": "^2.2.5",
     "aws-amplify-react-native": "^2.1.6",
     "awsmobile-cli": "^1.1.7",
