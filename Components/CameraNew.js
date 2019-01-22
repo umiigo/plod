@@ -1,5 +1,7 @@
 import { Constants, Camera, FileSystem, Permissions, BarCodeScanner, MediaLibrary,  } from 'expo';
 import React from 'react';
+import * as styles from '../styles'
+
 import {
   Component,
   StyleSheet,
@@ -14,7 +16,6 @@ import { Container, Content, Header, Item, Icon, Input, Button, Label } from 'na
 import { throws } from "assert";
 import { white } from 'ansi-colors';
 // import GalleryScreen from './GalleryScreen';
-import isIPhoneX from 'react-native-is-iphonex';
 
 import { 
   Ionicons,
@@ -23,8 +24,6 @@ import {
   MaterialCommunityIcons,
   Octicons
 } from '@expo/vector-icons';
-
-const landmarkSize = 2;
 
 const flashModeOrder = {
   off: 'on',
@@ -214,16 +213,16 @@ export default class App extends React.Component {
           { rotateY: `${yawAngle.toFixed(0)}deg` },
         ]}
         style={[
-          styles.face,
+          styles.styles.face,
           {
             ...bounds.size,
             left: bounds.origin.x,
             top: bounds.origin.y,
           },
         ]}>
-        <Text style={styles.faceText}>ID: {faceID}</Text>
-        <Text style={styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
-        <Text style={styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
+        <Text style={styles.styles.faceText}>ID: {faceID}</Text>
+        <Text style={styles.styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
+        <Text style={styles.styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
       </View>
     );
   }
@@ -233,10 +232,10 @@ export default class App extends React.Component {
       position && (
         <View
           style={[
-            styles.landmark,
+            styles.styles.landmark,
             {
-              left: position.x - landmarkSize / 2,
-              top: position.y - landmarkSize / 2,
+              left: position.x - styles.styles.landmarkSizeCameraNewlandmarkSize / 2,
+              top: position.y - styles.styles.landmarkSizeCameraNew / 2,
             },
           ]}
         />
@@ -259,17 +258,17 @@ export default class App extends React.Component {
   }
 
   renderFaces = () => 
-    <View style={styles.facesContainer} pointerEvents="none">
+    <View style={styles.styles.facesContainer} pointerEvents="none">
       {this.state.faces.map(this.renderFace)}
     </View>
 
   renderLandmarks = () => 
-    <View style={styles.facesContainer} pointerEvents="none">
+    <View style={styles.styles.facesContainer} pointerEvents="none">
       {this.state.faces.map(this.renderLandmarksOfFace)}
     </View>
 
   renderNoPermissions = () => 
-    <View style={styles.noPermissions}>
+    <View style={styles.styles.noPermissions}>
       <Text style={{ color: 'white' }}>
         Camera permissions not granted - cannot open camera preview.
       </Text>
@@ -277,24 +276,24 @@ export default class App extends React.Component {
 
   renderTopBar = () => 
     <View
-      style={styles.topBar}>
-      <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFacing}>
+      style={styles.styles.topBar}>
+      <TouchableOpacity style={styles.styles.toggleButton} onPress={this.toggleFacing}>
         <Ionicons name="ios-reverse-camera" size={32} color="white" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFlash}>
+      <TouchableOpacity style={styles.styles.toggleButton} onPress={this.toggleFlash}>
         <MaterialIcons name={flashIcons[this.state.flash]} size={32} color="white" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.toggleButton} onPress={this.toggleWB}>
+      <TouchableOpacity style={styles.styles.toggleButton} onPress={this.toggleWB}>
         <MaterialIcons name={wbIcons[this.state.whiteBalance]} size={32} color="white" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.toggleButton} onPress={this.toggleFocus}>
-        <Text style={[styles.autoFocusLabel, { color: this.state.autoFocus === 'on' ? "white" : "#6b6b6b" }]}>AF</Text>
+      <TouchableOpacity style={styles.styles.toggleButton} onPress={this.toggleFocus}>
+        <Text style={[styles.styles.autoFocusLabel, { color: this.state.autoFocus === 'on' ? "white" : "#6b6b6b" }]}>AF</Text>
       </TouchableOpacity>   
     </View>
 
   renderBottomBar = () =>
     <View
-      style={styles.bottomBar}>
+      style={styles.styles.bottomBar}>
       <View style={{ flex: 0.4 }}>
         <TouchableOpacity
           onPress={this.takePictureAndAddToAlbum}
@@ -303,10 +302,10 @@ export default class App extends React.Component {
           <Ionicons name="ios-radio-button-on" size={70} color="white" />
         </TouchableOpacity>
       </View> 
-      <TouchableOpacity style={styles.bottomButton}  onPress={()=>this.props.toggleDeck()&&this}>
+      <TouchableOpacity style={styles.styles.bottomButton}  onPress={()=>this.props.toggleDeck()&&this}>
         <View>
           <Ionicons name="md-photos" size={45} color="white" />
-          {this.state.newPhotos && <View style={styles.newPhotosDot}/>}
+          {this.state.newPhotos && <View style={styles.styles.newPhotosDot}/>}
         </View>
         <View>
           <Label style={{color:'white'}}>{this.state.album && this.state.album.assetCount}</Label>
@@ -316,8 +315,8 @@ export default class App extends React.Component {
 
   renderMoreOptions = () =>
     (
-      <View style={styles.options}>
-        {/* <View style={styles.detectors}>
+      <View style={styles.styles.options}>
+        {/* <View style={styles.styles.detectors}>
           <TouchableOpacity onPress={this.toggleFaceDetection}>
             <MaterialIcons name="tag-faces" size={32} color={this.state.faceDetecting ? "white" : "#858585" } />
           </TouchableOpacity>
@@ -326,13 +325,13 @@ export default class App extends React.Component {
           </TouchableOpacity>
         </View> */}
 
-        <View style={styles.pictureSizeContainer}>
-          <Text style={styles.pictureQualityLabel}>Picture quality</Text>
-          <View style={styles.pictureSizeChooser}>
+        <View style={styles.styles.pictureSizeContainer}>
+          <Text style={styles.styles.pictureQualityLabel}>Picture quality</Text>
+          <View style={styles.styles.pictureSizeChooser}>
             <TouchableOpacity onPress={this.previousPictureSize} style={{ padding: 6 }}>
               <Ionicons name="md-arrow-dropleft" size={14} color="white" />
             </TouchableOpacity>
-            <View style={styles.pictureSizeLabel}>
+            <View style={styles.styles.pictureSizeLabel}>
               <Text style={{color: 'white'}}>{this.state.pictureSize}</Text>
             </View>
             <TouchableOpacity onPress={this.nextPictureSize} style={{ padding: 6 }}>
@@ -350,7 +349,7 @@ export default class App extends React.Component {
           ref={ref => {
             this.camera = ref;
           }}
-          style={styles.camera}
+          style={styles.styles.camera}
           onCameraReady={this.collectPictureSizes}
           type={this.state.type}
           flashMode={this.state.flash}
@@ -384,14 +383,14 @@ export default class App extends React.Component {
       ? this.renderCamera()
       : this.renderNoPermissions();
     const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
-    return <View style={styles.container}>{content}</View>;
+    return <View style={styles.styles.container}>{content}</View>;
   }
 }
 
   {/* render() {
     
     return (
-      <View style={styles.container}>
+      <View style={styles.styles.container}>
         <Camera
           type={Camera.Constants.Type.back}
           style={{ flex: 1 }}
@@ -406,7 +405,7 @@ export default class App extends React.Component {
               ? this.takePictureAndAddToAlbum()
               : Alert.alert('Permissions not granted')
           }
-          style={styles.buttonContainer}>
+          style={styles.styles.buttonContainer}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginBottom: 15, alignItems: 'flex-end' }}>
                       
 
@@ -424,7 +423,7 @@ export default class App extends React.Component {
          
          
 
-          style={styles.buttonContainer2}>
+          style={styles.styles.buttonContainer2}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginBottom: 15, alignItems: 'flex-end' }}>
                       
 
@@ -437,7 +436,7 @@ export default class App extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={()=>this.props.toggleDeck()}
-          style={styles.buttonContainer3}>
+          style={styles.styles.buttonContainer3}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginBottom: 15, alignItems: 'flex-end' }}>
                       
 
@@ -453,136 +452,3 @@ export default class App extends React.Component {
   }
 } */}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  camera: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  topBar: {
-    flex: 0.2,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingTop: Constants.statusBarHeight / 2,
-  },
-  bottomBar: {
-    paddingBottom: isIPhoneX ? 25 : 5,
-    backgroundColor: 'transparent',
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    flex: 0.12,
-    flexDirection: 'row',
-  },
-  noPermissions: {
-    flex: 1,
-    alignItems:'center',
-    justifyContent: 'center',
-    padding: 10,
-  },
-  gallery: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  toggleButton: {
-    flex: 0.25,
-    height: 40,
-    marginHorizontal: 2,
-    marginBottom: 10,
-    marginTop: 20,
-    padding: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  autoFocusLabel: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  bottomButton: {
-    flex: 0.3, 
-    height: 58, 
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  newPhotosDot: {
-    position: 'absolute',
-    top: 0,
-    right: -5,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4630EB'
-  },
-  options: {
-    position: 'absolute',
-    bottom: 80,
-    left: 30,
-    width: 200,
-    height: 160,
-    backgroundColor: '#000000BA',
-    borderRadius: 4,
-    padding: 10,
-  },
-  detectors: {
-    flex: 0.5,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  pictureQualityLabel: {
-    fontSize: 10,
-    marginVertical: 3, 
-    color: 'white'
-  },
-  pictureSizeContainer: {
-    flex: 0.5,
-    alignItems: 'center',
-    paddingTop: 10,
-  },
-  pictureSizeChooser: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row'
-  },
-  pictureSizeLabel: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  facesContainer: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    top: 0,
-  },
-  face: {
-    padding: 10,
-    borderWidth: 2,
-    borderRadius: 2,
-    position: 'absolute',
-    borderColor: '#FFD700',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  landmark: {
-    width: landmarkSize,
-    height: landmarkSize,
-    position: 'absolute',
-    backgroundColor: 'red',
-  },
-  faceText: {
-    color: '#FFD700',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    margin: 10,
-    backgroundColor: 'transparent',
-  },
-  row: {
-    flexDirection: 'row',
-  },
-});

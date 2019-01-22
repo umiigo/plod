@@ -1,17 +1,10 @@
 import React, {Component} from 'react'
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  PanResponder,
-  Animated,
-  Dimensions,
-} from 'react-native'
+import {  StyleSheet,  View,  Image,  Text,  PanResponder,  Animated,  Dimensions,} from 'react-native'
+import * as styles from '../styles'
+// import moment from 'moment'
 
-import moment from 'moment'
+// const {width, height} = Dimensions.get('window')
 
-const {width, height} = Dimensions.get('window')
 
 export default class Card extends Component {
   componentWillMount() {
@@ -64,7 +57,7 @@ export default class Card extends Component {
     return (
       <Animated.View
         {...this.cardPanResponder.panHandlers}
-        style={[styles.card, animatedStyle]}>
+        style={[styles.styles.card, animatedStyle]}>
         <Image
           style={{flex:1, 
             // aspectRatio: 1.5, 
@@ -79,18 +72,3 @@ export default class Card extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  card: {
-    position: 'absolute',
-    width: width -20,
-    height: height * 0.7,
-    top: (height * 0.02) / 2,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    margin: 10,
-    borderWidth: 1,
-    borderColor: 'lightgrey',
-    borderRadius: 8,
-  },
-})

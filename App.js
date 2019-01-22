@@ -1,40 +1,21 @@
 import React from 'react';
 import { TextInput, Button, StyleSheet, Text, View } from 'react-native';
-
-// import aws_exports from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react-native';
-// import { Connect } from 'aws-amplify-react-native';
-// import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
-
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
+
+// import aws_exports from './aws-exports';
+// import { withAuthenticator } from 'aws-amplify-react-native';
+// import { Connect } from 'aws-amplify-react-native';
+// import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
+// import SharedListAlbum from './Components/SharedListAlbum'
+// import { throws } from 'assert';
 import ListAlbum from './Components/ListAlbum'
-import SharedListAlbum from './Components/SharedListAlbum'
 import CameraNew from './Components/CameraNew'
 import NewCardDeck from './Components/NewCardDeck'
 import NewAlbumComponent from './Components/NewAlbumComponent'
-// import { throws } from 'assert';
-const styles = StyleSheet.create({
-  slideDefault: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slideSwipe: {
-    flex: 1,
-    backgroundColor: 'white'
-  },
-  text: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold'
-  },
-  containero: {
-    flex: 1,
-    backgroundColor: '#fff',
-  }
-})
+import * as styles from './styles'
+
+
 class App extends React.Component {
     state = {
       outerScrollEnabled: true,
@@ -97,7 +78,7 @@ class App extends React.Component {
   render() {
     return (
       this.state.deckView?
-                        <View style={styles.slideSwipe}>
+                        <View style={styles.styles.slideSwipe}>
                           <NewCardDeck 
                           toggleCreateAlbumView={this.toggleCreateAlbumView}
                           toggleDeck={this.toggleDeck}></NewCardDeck>
@@ -106,7 +87,7 @@ class App extends React.Component {
                           this.state.album?
                             <Container>
               
-                                    <View style={styles.slideSwipe}>
+                                    <View style={styles.styles.slideSwipe}>
                                       <NewAlbumComponent album={this.state.album} images={this.state.albumImages} getImages={this.getAlbumImages} deselectAlbum={this.deselectAlbum}></NewAlbumComponent>
                                     </View>
 
@@ -124,7 +105,7 @@ class App extends React.Component {
                                   resistanceRatio={0}
                                   >                              
 
-                                  <View style={styles.slideSwipe}>
+                                  <View style={styles.styles.slideSwipe}>
                                     <ListAlbum getAlbums={this.getAlbums}
                                     getAlbum={this.getAlbum}
                                     album={this.state.album}
@@ -149,7 +130,7 @@ class App extends React.Component {
                                   <CameraNew toggleDeck={this.toggleDeck}></CameraNew>
                                   </Swiper>
 
-                                  {/* <View style={styles.slideSwipe}>
+                                  {/* <View style={styles.styles.slideSwipe}>
                                     <SharedListAlbum getAlbums={this.getAlbums}
                                     getAlbum={this.getAlbum}
                                     album={this.state.album}

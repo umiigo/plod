@@ -6,31 +6,10 @@ import aws_exports from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react-native';
 Amplify.configure(aws_exports);
 import { Container, Content, Header, Label, List, ListItem, Left, Right, Body } from 'native-base'
-import { throws } from 'assert';
+// import { throws } from 'assert';
 import { Connect } from 'aws-amplify-react-native';
 import { graphqlOperation }  from 'aws-amplify';
-
-const styles = StyleSheet.create({
-  slideDefault: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slideSwipe: {
-    flex: 1,
-    backgroundColor: '#9DD6EB'
-  },
-  text: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold'
-  },
-  containero: {
-    flex: 1,
-    backgroundColor: '#fff',
-  }
-})
+import * as styles from '../styles'
 
 function makeComparator(key, order = 'asc') {
   return (a, b) => {

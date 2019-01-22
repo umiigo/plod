@@ -4,6 +4,8 @@ import Swiper from 'react-native-swiper'
 import { Container, Header, Content, List, ListItem, Thumbnail,Title, Text, Left, Body, Right, Button, View } from 'native-base';
 import Form from './AddAlbumForm'
 import NewAlbumComponent from './NewAlbumComponent';
+import * as styles from '../styles'
+
 export default class ListThumbnailExample extends Component {
 
     state={
@@ -35,7 +37,7 @@ export default class ListThumbnailExample extends Component {
 
     
     renderAlbumList = () => (
-    <View style={styles.slideSwipe}>
+    <View style={styles.styles.slideSwipeListAlbum}>
       <Container>
         <Header>
           <Body>
@@ -78,7 +80,7 @@ export default class ListThumbnailExample extends Component {
     </View> )
 
     renderAlbumView = () =>  (
-    <View style={styles.slideSwipe} >
+    <View style={styles.styles.slideSwipeListAlbum} >
       {/* <NewAlbumComponent
          deselectAlbum={this.props.deselectAlbum} 
          album={this.props.album} 
@@ -100,20 +102,4 @@ export default class ListThumbnailExample extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  slideDefault: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-  slideSwipe: {
-    flex: 1,
-    backgroundColor: '#9DD6EB'
-  },
-  text: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold'
-  }
-})
+

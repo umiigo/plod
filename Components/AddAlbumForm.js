@@ -44,7 +44,9 @@ class NewAlbum extends Component {
 
 export default class FloatingLabelExample extends Component {
 
-  state = {albumName:false}
+  state = {
+    albumName:false
+  }
 
   handleSubmit = async (event) => {
     const NewAlbum = `mutation NewAlbum($name: String!) {
