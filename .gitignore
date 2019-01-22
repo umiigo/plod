@@ -1,4 +1,4 @@
-node_modules/**/*
+node_modules/
 .expo/*
 npm-debug.*
 *.jks
@@ -10,7 +10,7 @@ npm-debug.*
 appsync-info.json
 aws-info.json
 project-info.json
-aws-exports.*
+# aws-exports.*
 awsmobilejs/.awsmobile/backend-build
 awsmobilejs/\#current-backend-info
 ~awsmobilejs-*/
