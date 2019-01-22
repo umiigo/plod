@@ -7,7 +7,7 @@ import {
     TouchableOpacity
 } from "react-native"
 import { Container, Content, Icon, Thumbnail, Label, Header, Left, Right, Body, Title, Button } from 'native-base'
-import Card from './newcard'
+import Card from './NewCard'
 
 export default class App extends Component {
   getUnsortedAlbum = () => Expo.MediaLibrary.getAlbumAsync('Unsorted').then(album=> this.setState({album}))

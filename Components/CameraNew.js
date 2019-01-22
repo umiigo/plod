@@ -89,9 +89,23 @@ export default class App extends React.Component {
 
   
 
-  componentDidMount() {
-    this.getCameraPermissions();
+  async componentWillMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA) && await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    this.setState({ permissionsGranted: status === 'granted' });
   }
+
+ async componentDidMount() {
+    this.getCameraPermissions();
+     await MediaLibrary.getAlbumAsync('Unsorted').then(resp=>this.setState({unsortedAlbum: resp}))
+     !this.state.unsortedAlbum? 
+      await MediaLibrary.createAlbumAsync('Unsorted').then(resp=>{
+        this.setState({unsortedAlbum: resp})
+        this.props.addUnsorted(resp)
+    })
+        .then(resp=>console.log(resp))
+     : console.log(this.state.unsortedAlbum)
+  }
+
 
   componentWillUpdate(){
       this.getUnsortedAlbum()

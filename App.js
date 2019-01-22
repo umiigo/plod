@@ -34,6 +34,8 @@ class App extends React.Component {
   toggleDeck = () => this.setState({deckView: !this.state.deckView})
   toggleCreateAlbumView = () => this.setState({addAlbumView: !this.state.addAlbumView})
 
+  addUnsorted = (resp)=> this.setState({albums: [...this.state.albums, resp]})
+
 
   getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync(100).then(albums => this.setState({ albums }))
 
@@ -107,27 +109,31 @@ class App extends React.Component {
 
                                   <View style={styles.styles.slideSwipe}>
                                     <ListAlbum getAlbums={this.getAlbums}
-                                    getAlbum={this.getAlbum}
-                                    album={this.state.album}
-                                    toggleDeck={this.toggleDeck}
-                                    toggleCreateAlbumView={this.toggleCreateAlbumView}
-                                    albums={this.state.albums}
-                                    selectAlbum={this.selectAlbum}
-                                    deselectAlbum={this.deselectAlbum}
-                                    deleteAlbum={this.deleteAlbum}
-                                    addAlbumView={this.state.addAlbumView}
-                                    state={this.state}>
-                                    </ListAlbum>
+                                      getAlbum={this.getAlbum}
+                                      album={this.state.album}
+                                      toggleDeck={this.toggleDeck}
+                                      toggleCreateAlbumView={this.toggleCreateAlbumView}
+                                      albums={this.state.albums}
+                                      selectAlbum={this.selectAlbum}
+                                      deselectAlbum={this.deselectAlbum}
+                                      deleteAlbum={this.deleteAlbum}
+                                      addAlbumView={this.state.addAlbumView}
+                                      state={this.state}
+                                    />
                                   </View>
                                   
-                                  <Swiper loop={false}
-                                  showsPagination={false}
-                                  index={0}
-                                  bounces={false}
-                                  resistance={true}
-                                  resistanceRatio={0}
+                                  <Swiper 
+                                    loop={false}
+                                    showsPagination={false}
+                                    index={0}
+                                    bounces={false}
+                                    resistance={true}
+                                    resistanceRatio={0}
                                   >  
-                                  <CameraNew toggleDeck={this.toggleDeck}></CameraNew>
+                                    <CameraNew 
+                                      toggleDeck={this.toggleDeck}
+                                      addUnsorted={this.addUnsorted}
+                                    />
                                   </Swiper>
 
                                   {/* <View style={styles.styles.slideSwipe}>

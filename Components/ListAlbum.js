@@ -23,8 +23,15 @@ export default class ListThumbnailExample extends Component {
     if (nextState.album!==this.state.album &&this.state.album===false){
      this.props.getAlbum()
     }
-  
     }
+
+    renderDeleteButton = (album) =>
+      <Right>
+        <Button onPress={()=>this.props.deleteAlbum(album)} transparent>
+          <Text>X</Text>
+        </Button>
+      </Right>
+    
 
     albumSelector = (album) => {
       if (this.props.album){
@@ -52,7 +59,7 @@ export default class ListThumbnailExample extends Component {
           </Button> */}
           <List>         
             {this.props.albums.map(album=>
-              <ListItem thumbnail onPress={()=> this.albumSelector(album)}>
+              <ListItem key={album.title} thumbnail onPress={()=> this.albumSelector(album)}>
 
                 <Left>
                 {/* <Button transparent onPress={(album)=>(console.log(this.setState({selectedAlbum:album})))}>
@@ -66,11 +73,7 @@ export default class ListThumbnailExample extends Component {
                   <Text note numberOfLines={1}>{album.assetCount} items in this album</Text>
                 </Body>
 
-                <Right>
-                  <Button onPress={()=>this.props.deleteAlbum(album)} transparent>
-                    <Text>X</Text>
-                  </Button>
-                </Right>
+                {album.title.toLowerCase() !== "unsorted" && this.renderDeleteButton(album)}
 
               </ListItem>
             )}

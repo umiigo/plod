@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
-import {  StyleSheet,  View,  Image,  Text,  PanResponder,  Animated,  Dimensions,} from 'react-native'
+import { Image, PanResponder,  Animated, } from 'react-native'
 import * as styles from '../styles'
-// import moment from 'moment'
-
-// const {width, height} = Dimensions.get('window')
 
 
 export default class Card extends Component {
