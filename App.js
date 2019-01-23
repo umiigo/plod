@@ -9,7 +9,7 @@ import Swiper from 'react-native-swiper'
 // import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
 // import SharedListAlbum from './Components/SharedListAlbum'
 // import { throws } from 'assert';
-import ListAlbum from './Components/ListAlbum'
+import AlbumListView from './Components/AlbumListScreen/AlbumListView'
 import CameraNew from './Components/CameraNew'
 import NewCardDeck from './Components/NewCardDeck'
 import NewAlbumComponent from './Components/NewAlbumComponent'
@@ -63,20 +63,6 @@ class App extends React.Component {
     }
   }
 
-//   componentDidMount () {
-//     this.getAlbums()
-// }
-
-  // componentDidUpdate(nextProps, nextState){
-  // if (nextState.albums!==this.state.albums){
-  //   this.getAlbums()
-  // }}
-  // if (nextState.album!==this.state.album &&this.state.album===false){
-  // this.getAlbum()
-  // }
-
-  // }
-
   render() {
     return (
       this.state.deckView?
@@ -108,7 +94,7 @@ class App extends React.Component {
                                   >                              
 
                                   <View style={styles.styles.slideSwipe}>
-                                    <ListAlbum getAlbums={this.getAlbums}
+                                    <AlbumListView getAlbums={this.getAlbums}
                                       getAlbum={this.getAlbum}
                                       album={this.state.album}
                                       toggleDeck={this.toggleDeck}
