@@ -9,7 +9,7 @@ export default class NewAlbumComponent extends Component {
     album: this.props.album
   }
   componentDidMount(){
-    this.props.getImages()
+    this.props.getImages())
   }
 
   componentWillUpdate(nextState){

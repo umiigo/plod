@@ -44,7 +44,7 @@ class App extends React.Component {
 
   getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album=> this.setState({album}))
   getAlbumImages = () =>  {
-    Expo.MediaLibrary.getAssetsAsync({
+    return Expo.MediaLibrary.getAssetsAsync({
       first:this.state.i,
       album: this.state.album.id
     })
