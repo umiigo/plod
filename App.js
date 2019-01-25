@@ -18,6 +18,7 @@ import * as styles from './styles'
 
 class App extends React.Component {
     state = {
+      i: 10,
       outerScrollEnabled: true,
       deckView: false,
       albums: [],
@@ -42,14 +43,22 @@ class App extends React.Component {
   getImages = () =>  Expo.MediaLibrary.getAssetsAsync().then(images=> this.setState({images}))
 
   getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album=> this.setState({album}))
-  getAlbumImages = () =>  Expo.MediaLibrary.getAssetsAsync({first:10, album: this.state.album.id}).then(images=> this.setState({albumImages: images.assets}))
+  getAlbumImages = () =>  {
+    Expo.MediaLibrary.getAssetsAsync({
+      first:this.state.i,
+      album: this.state.album.id
+    })
+    .then(images=> this.setState({albumImages: images.assets}))
+  }
   deselectAlbum = () => this.setState({album:!this.state.album, albumImages:[]})
   albumFalse = () => this.setState({album: false})
   selectAlbum = (album) => this.setState({album: album})
   deleteAlbum = (album) => Expo.MediaLibrary.deleteAlbumsAsync(album, true).then(resp=> this.getAlbums())
 
   
-  
+  incrementNumberOfImages = (num)=>{
+    this.setState({i: this.state.i+num})
+  }
   verticalScroll = (index) => {
     if (index !== 1) {
       this.setState({
@@ -76,7 +85,15 @@ class App extends React.Component {
                             <Container>
               
                                     <View style={styles.styles.slideSwipe}>
-                                      <NewAlbumComponent album={this.state.album} images={this.state.albumImages} getImages={this.getAlbumImages} deselectAlbum={this.deselectAlbum}></NewAlbumComponent>
+                                      <NewAlbumComponent 
+                                      album={this.state.album}
+                                       images={this.state.albumImages} 
+                                       getImages={this.getAlbumImages} 
+                                       deselectAlbum={this.deselectAlbum}
+                                       state={this.state}
+                                        getAlbumImages={this.getAlbumImages}
+                                        incrementNumberOfImages={this.incrementNumberOfImages}
+                                       ></NewAlbumComponent>
                                     </View>
 
 
@@ -105,6 +122,8 @@ class App extends React.Component {
                                       deleteAlbum={this.deleteAlbum}
                                       addAlbumView={this.state.addAlbumView}
                                       state={this.state}
+                                      getAlbumImages={this.getAlbumImages}
+                                      incrementNumberOfImages={this.incrementNumberOfImages}
                                     />
                                   </View>
                                   

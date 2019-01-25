@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { Container, Header, Title, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
-
+import AddAlbumComponent from './AddAlbumButton'
 
 
 export default class NewAlbumComponent extends Component {
@@ -60,6 +60,11 @@ export default class NewAlbumComponent extends Component {
 
         </CardItem>
       </Card>)}
+      <AddAlbumComponent
+        state={this.props.state}
+        getAlbumImages={this.props.getAlbumImages}
+        incrementNumberOfImages={this.props.incrementNumberOfImages}
+      ></AddAlbumComponent>
     </Content>
   </Container> 
 

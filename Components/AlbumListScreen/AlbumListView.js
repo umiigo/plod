@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Content, Button, View } from 'native-base';
 import AlbumListHeader from './aaAlbumListHeader'
-import AddAlbumButton from './abAddAlbumButton';
+// import AddAlbumButton from '../AddAlbumButton';
 import AlbumListContainer from './ac03AlbumList';
 
 import * as styles from '../../styles'
@@ -32,7 +32,12 @@ export default class AlbumListView extends Component {
       <View style={styles.styles.slideSwipeListAlbum}>
         <Container>
             <AlbumListHeader></AlbumListHeader>
-            {/* <AddAlbumButton></AddAlbumButton> */}
+            {/* <AddAlbumButton
+              state={this.props.state}
+              getAlbumImages={this.props.getAlbumImages}
+              incrementNumberOfImages={this.incrementNumberOfImages}
+            >
+            </AddAlbumButton> */}
             <AlbumListContainer 
               albums={this.props.albums} 
               deselectAlbum={this.props.deselectAlbum} 
