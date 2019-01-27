@@ -6,6 +6,15 @@ import {
     ScrollView,
     TouchableOpacity
 } from "react-native"
+
+import { 
+  Ionicons,
+  MaterialIcons,
+  Foundation,
+  MaterialCommunityIcons,
+  Octicons
+} from '@expo/vector-icons';
+
 import { Container, Content, Icon, Thumbnail, Label, Header, Left, Right, Body, Title, Button } from 'native-base'
 import Card from './NewCard'
 
@@ -132,7 +141,7 @@ export default class App extends Component {
                       <Content>
                         <TouchableOpacity onPress={()=>this.props.setAlbumFormView()}>
                           <Thumbnail circle medium style={{ marginHorizontal: 15, borderColor:'white', borderWidth: 2, backgroundColor:'none' }} source={require('../assets/14.png')} />
-                          <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}></Text>
+                          <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}> </Text>
                         </TouchableOpacity>
                       </Content>
               </View>

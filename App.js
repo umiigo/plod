@@ -144,17 +144,14 @@ export default class App extends React.Component {
         </View>}
 
       if(this.state.albumFormView){
-     return <View>
-        <AddAlbumForm
-
+     return <AddAlbumForm
           setCardDeckView={this.setCardDeckView}
-
           toggleCreateAlbumView={this.toggleCreateAlbumView}
           // toggleDeck={this.toggleDeck}
           getAlbum={this.getAlbums}
           state={this.state}
         />
-      </View>}
+      }
 
         if(this.state.album && this.state.albumPicsView){
             return<View style={styles.styles.slideSwipe}>

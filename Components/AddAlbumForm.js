@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Content, Form, Item, Input, Label, Button, Text, Left, Icon, Body, Title, Right } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Button, Text, Left, Icon, Body, Title, Right, View } from 'native-base';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 
 
@@ -48,6 +48,7 @@ export default class AddAlbumForm extends Component {
     albumName:false
   }
 
+
   handleSubmit = async (event) => {
     const NewAlbum = `mutation NewAlbum($name: String!) {
           createAlbum(input: {name: $name}) {
@@ -66,20 +67,21 @@ export default class AddAlbumForm extends Component {
   }
 
   createAlbum = () => Expo.MediaLibrary.createAlbumAsync(this.state.albumName)
-                        .then(() => {
-                        this.props.toggleCreateAlbumView()
-                        this.props.toggleDeck()
-                        this.props.getAlbums()
-                        // this.handleSubmit()    < --------- Remember to reinable when adding shared albums
-                        alert(this.state.albumName + ' created')
-                        })
-                        .catch(error => {
-                        console.log('err', error);
-                        });
+    .then(() => {
+    this.props.toggleCreateAlbumView()
+    this.props.toggleDeck()
+    this.props.getAlbums()
+    // this.handleSubmit()    < --------- Remember to reinable when adding shared albums
+    alert(this.state.albumName + ' created')
+    })
+    .catch(error => {
+    console.log('err', error);
+    });
                         
   render() {
     return (
       <Container>
+
       <Header>
           <Left>
           </Left>
@@ -93,18 +95,18 @@ export default class AddAlbumForm extends Component {
           </Right>
         </Header>
         <Content>
-           <Item regular >
+        <Header transparent/>
+        <Item regular >
               <Input placeholder='Enter New Album Name'onChangeText={(e)=>(this.setState({albumName: e}))} />              
             </Item>
             <Header transparent/>
             <Body flexDirection= "row" justifyContent= "center">
-            <Button block info onPress={()=>(this.createAlbum())}>
-              <Text>Create New Album</Text>
-            </Button>
+              <Button block info onPress={()=>(this.createAlbum())}>
+                <Text>Create New Album</Text>
+              </Button>
             </Body>
         </Content>
-        </Container>
-
+      </Container>
     );
   }
 }
