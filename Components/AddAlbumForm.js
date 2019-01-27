@@ -42,7 +42,7 @@ class NewAlbum extends Component {
 }
 
 
-export default class FloatingLabelExample extends Component {
+export default class AddAlbumForm extends Component {
 
   state = {
     albumName:false

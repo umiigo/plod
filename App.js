@@ -9,6 +9,7 @@ import Swiper from 'react-native-swiper'
 // import Amplify, { API, graphqlOperation, Storage } from 'aws-amplify';
 // import SharedListAlbum from './Components/SharedListAlbum'
 // import { throws } from 'assert';
+import AddAlbumForm from './Components/AddAlbumForm'
 import AlbumListView from './Components/AlbumListScreen/AlbumListView'
 import CameraNew from './Components/CameraNew'
 import NewCardDeck from './Components/NewCardDeck'
@@ -26,7 +27,9 @@ class App extends React.Component {
     album: false,
     albumImages: [],
     addAlbumView: false,
+    renderAlbumForm: false,
   }
+
 
 
   getImages = async params => {
@@ -43,11 +46,10 @@ class App extends React.Component {
     );
   };
 
-  setAppState = state => this.setState(state)
-
   toggleDeck = () => this.setState({ deckView: !this.state.deckView })
-  toggleCreateAlbumView = () => this.setState({ addAlbumView: !this.state.addAlbumView })
 
+  toggleAddAlbumView = () => this.setState({ addAlbumView: !this.state.addAlbumView })
+  toggleCreateAlbumView = () => toggleAddAlbumView()
   addUnsorted = (resp) => this.setState({ albums: [...this.state.albums, resp] })
 
 
@@ -91,10 +93,20 @@ class App extends React.Component {
       this.state.deckView ?
         <View style={styles.styles.slideSwipe}>
           <NewCardDeck
-            toggleCreateAlbumView={this.toggleCreateAlbumView}
+            toggleRenderAlbumForm={this.toggleRenderAlbumForm}
+            toggleCreateAlbumView={this.toggleAddAlbumView}
             toggleDeck={this.toggleDeck}></NewCardDeck>
         </View>
         :
+        this.state.addAlbumView?
+     <View>
+        <AddAlbumForm
+          toggleCreateAlbumView={this.toggleCreateAlbumView}
+          toggleDeck={this.toggleDeck}
+          getAlbum={this.getAlbums}
+          state={this.state}
+        />
+      </View> :
         this.state.album ?
           <Container>
             <View style={styles.styles.slideSwipe}>
@@ -114,13 +126,12 @@ class App extends React.Component {
               resistance={true}
               resistanceRatio={0}
             >
-
               <View style={styles.styles.slideSwipe}>
                 <AlbumListView getAlbums={this.getAlbums}
                   getAlbum={this.getAlbum}
                   album={this.state.album}
                   toggleDeck={this.toggleDeck}
-                  toggleCreateAlbumView={this.toggleCreateAlbumView}
+                  toggleAddAlbumView={this.toggleAddAlbumView}
                   albums={this.state.albums}
                   selectAlbum={this.selectAlbum}
                   deselectAlbum={this.deselectAlbum}
@@ -151,7 +162,7 @@ class App extends React.Component {
                   getAlbum={this.getAlbum}
                   album={this.state.album}
                   toggleDeck={this.toggleDeck}
-                  toggleCreateAlbumView={this.toggleCreateAlbumView}
+                  toggleAddAlbumView={this.toggleAddAlbumView}
                   albums={this.state.albums}
                   selectAlbum={this.selectAlbum}
                   deselectAlbum={this.deselectAlbum}

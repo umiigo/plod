@@ -64,7 +64,8 @@ export default class NewAlbumComponent extends Component {
         state={this.props.state}
         getAlbumImages={this.props.getAlbumImages}
         incrementNumberOfImages={this.props.incrementNumberOfImages}
-      ></AddAlbumComponent>
+      >
+      </AddAlbumComponent>
     </Content>
   </Container> 
 
