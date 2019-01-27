@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Button, StyleSheet, Text, View } from 'react-native';
+import { TextInput, CameraRoll, Button, StyleSheet, Text, View } from 'react-native';
 import { Container, Content } from 'native-base'
 import Swiper from 'react-native-swiper'
 
@@ -17,48 +17,62 @@ import * as styles from './styles'
 
 
 class App extends React.Component {
-    state = {
-      i: 10,
-      outerScrollEnabled: true,
-      deckView: false,
-      albums: [],
-      images:[],
-      album:false,
-      albumImages:[],
-      addAlbumView: false,
-      viewAlbumView: false,
-      selectedAlbum: false,
-      selectedImages: [],
-      albumName:false
-    }
-
-  toggleDeck = () => this.setState({deckView: !this.state.deckView})
-  toggleCreateAlbumView = () => this.setState({addAlbumView: !this.state.addAlbumView})
-
-  addUnsorted = (resp)=> this.setState({albums: [...this.state.albums, resp]})
+  state = {
+    i: 10,
+    outerScrollEnabled: true,
+    deckView: false,
+    albums: [],
+    images: [],
+    album: false,
+    albumImages: [],
+    addAlbumView: false,
+  }
 
 
-  getAlbums = () =>  Expo.MediaLibrary.getAlbumsAsync(100).then(albums => this.setState({ albums }))
+  getImages = async params => {
+    return await new Promise((res, rej) =>
+      CameraRoll.getPhotos(params)
+        .then(data => {
+          const assets = data.edges;
+          const images = assets.map(asset => asset.node.image);
+          const page_info = data.page_info;
+          res({ images, page_info });
+        })
+        .then(images => this.setState({ images }))
+        .catch(rej)
+    );
+  };
 
-  getImages = () =>  Expo.MediaLibrary.getAssetsAsync().then(images=> this.setState({images}))
+  setAppState = state => this.setState(state)
 
-  getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album=> this.setState({album}))
-  getAlbumImages = () =>  {
+  toggleDeck = () => this.setState({ deckView: !this.state.deckView })
+  toggleCreateAlbumView = () => this.setState({ addAlbumView: !this.state.addAlbumView })
+
+  addUnsorted = (resp) => this.setState({ albums: [...this.state.albums, resp] })
+
+
+  getAlbums = () => Expo.MediaLibrary.getAlbumsAsync().then(albums => this.setState({ albums }))
+
+  getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album => this.setState({ album }))
+
+  getAlbumImages = () => {
     return Expo.MediaLibrary.getAssetsAsync({
-      first:this.state.i,
+      first: this.state.i,
       album: this.state.album.id
     })
-    .then(images=> this.setState({albumImages: images.assets}))
+      .then(images => this.setState({ albumImages: images.assets }))
   }
-  deselectAlbum = () => this.setState({album:!this.state.album, albumImages:[]})
-  albumFalse = () => this.setState({album: false})
-  selectAlbum = (album) => this.setState({album: album})
-  deleteAlbum = (album) => Expo.MediaLibrary.deleteAlbumsAsync(album, true).then(resp=> this.getAlbums())
+  deselectAlbum = () => this.setState({ album: !this.state.album, albumImages: [] })
 
-  
-  incrementNumberOfImages = (num)=>{
-    this.setState({i: this.state.i+num})
+  albumFalse = () => this.setState({ album: false })
+  selectAlbum = (album) => this.setState({ album: album })
+  deleteAlbum = (album) => Expo.MediaLibrary.deleteAlbumsAsync(album, true).then(resp => this.getAlbums())
+
+
+  incrementNumberOfImages = (num) => {
+    this.setState({ i: this.state.i + num })
   }
+
   verticalScroll = (index) => {
     if (index !== 1) {
       this.setState({
@@ -74,93 +88,81 @@ class App extends React.Component {
 
   render() {
     return (
-      this.state.deckView?
-                        <View style={styles.styles.slideSwipe}>
-                          <NewCardDeck 
-                          toggleCreateAlbumView={this.toggleCreateAlbumView}
-                          toggleDeck={this.toggleDeck}></NewCardDeck>
-                        </View>
-                        :
-                          this.state.album?
-                            <Container>
-              
-                                    <View style={styles.styles.slideSwipe}>
-                                      <NewAlbumComponent 
-                                      album={this.state.album}
-                                       images={this.state.albumImages} 
-                                       getImages={this.getAlbumImages} 
-                                       deselectAlbum={this.deselectAlbum}
-                                       state={this.state}
-                                        getAlbumImages={this.getAlbumImages}
-                                        incrementNumberOfImages={this.incrementNumberOfImages}
-                                       ></NewAlbumComponent>
-                                    </View>
+      this.state.deckView ?
+        <View style={styles.styles.slideSwipe}>
+          <NewCardDeck
+            toggleCreateAlbumView={this.toggleCreateAlbumView}
+            toggleDeck={this.toggleDeck}></NewCardDeck>
+        </View>
+        :
+        this.state.album ?
+          <Container>
+            <View style={styles.styles.slideSwipe}>
+              <NewAlbumComponent
+                deselectAlbum={this.deselectAlbum}
+                album={this.state.album}
+              />
+            </View>
+          </Container>
+          :
+          <Container>
+            <Swiper
+              loop={false}
+              showsPagination={false}
+              index={0}
+              bounces={false}
+              resistance={true}
+              resistanceRatio={0}
+            >
 
+              <View style={styles.styles.slideSwipe}>
+                <AlbumListView getAlbums={this.getAlbums}
+                  getAlbum={this.getAlbum}
+                  album={this.state.album}
+                  toggleDeck={this.toggleDeck}
+                  toggleCreateAlbumView={this.toggleCreateAlbumView}
+                  albums={this.state.albums}
+                  selectAlbum={this.selectAlbum}
+                  deselectAlbum={this.deselectAlbum}
+                  deleteAlbum={this.deleteAlbum}
+                  addAlbumView={this.state.addAlbumView}
+                  state={this.state}
+                  getAlbumImages={this.getAlbumImages}
+                  incrementNumberOfImages={this.incrementNumberOfImages}
+                />
+              </View>
+              <Swiper
+                loop={false}
+                showsPagination={false}
+                index={0}
+                bounces={false}
+                resistance={true}
+                resistanceRatio={0}
+              >
+                <CameraNew
+                  toggleDeck={this.toggleDeck}
+                  addUnsorted={this.addUnsorted}
+                />
+              </Swiper>
 
-                            </Container>
-                          :
-                            <Container>
-
-                                <Swiper
-                                  loop={false}
-                                  showsPagination={false}
-                                  index={0}
-                                  bounces={false}
-                                  resistance={true}
-                                  resistanceRatio={0}
-                                  >                              
-
-                                  <View style={styles.styles.slideSwipe}>
-                                    <AlbumListView getAlbums={this.getAlbums}
-                                      getAlbum={this.getAlbum}
-                                      album={this.state.album}
-                                      toggleDeck={this.toggleDeck}
-                                      toggleCreateAlbumView={this.toggleCreateAlbumView}
-                                      albums={this.state.albums}
-                                      selectAlbum={this.selectAlbum}
-                                      deselectAlbum={this.deselectAlbum}
-                                      deleteAlbum={this.deleteAlbum}
-                                      addAlbumView={this.state.addAlbumView}
-                                      state={this.state}
-                                      getAlbumImages={this.getAlbumImages}
-                                      incrementNumberOfImages={this.incrementNumberOfImages}
-                                    />
-                                  </View>
-                                  
-                                  <Swiper 
-                                    loop={false}
-                                    showsPagination={false}
-                                    index={0}
-                                    bounces={false}
-                                    resistance={true}
-                                    resistanceRatio={0}
-                                  >  
-                                    <CameraNew 
-                                      toggleDeck={this.toggleDeck}
-                                      addUnsorted={this.addUnsorted}
-                                    />
-                                  </Swiper>
-
-                                  {/* <View style={styles.styles.slideSwipe}>
-                                    <SharedListAlbum getAlbums={this.getAlbums}
-                                    getAlbum={this.getAlbum}
-                                    album={this.state.album}
-                                    toggleDeck={this.toggleDeck}
-                                    toggleCreateAlbumView={this.toggleCreateAlbumView}
-                                    albums={this.state.albums}
-                                    selectAlbum={this.selectAlbum}
-                                    deselectAlbum={this.deselectAlbum}
-                                    deleteAlbum={this.deleteAlbum}
-                                    addAlbumView={this.state.addAlbumView}
-                                    state={this.state}>
-                                    </SharedListAlbum>
-                                  </View>   */}
-                                  {/* This to be reinabled when shared albums */}
-                                    
-
-                                </Swiper>
-                              </Container>
-            
+              {/* shared AWS stuff: DO NOT REMOVE */}
+              {/* <View style={styles.styles.slideSwipe}>
+                  <SharedListAlbum getAlbums={this.getAlbums}
+                  getAlbum={this.getAlbum}
+                  album={this.state.album}
+                  toggleDeck={this.toggleDeck}
+                  toggleCreateAlbumView={this.toggleCreateAlbumView}
+                  albums={this.state.albums}
+                  selectAlbum={this.selectAlbum}
+                  deselectAlbum={this.deselectAlbum}
+                  deleteAlbum={this.deleteAlbum}
+                  addAlbumView={this.state.addAlbumView}
+                  state={this.state}>
+                  </SharedListAlbum>
+                </View>   */}
+              {/* This to be reinabled when shared albums */}
+            </Swiper>
+          </Container>
     )
   }
 }
