@@ -18,62 +18,19 @@ import * as styles from './styles'
 
 
 export default class App extends React.Component {
-  
   state = {
-    // views:
-    cardDeckView: false,
-    albumFormView: false,
-    swiperView: true,
-    albumPicsView: false,
-    //  other stuff
     i: 10,
     outerScrollEnabled: true,
+    // views:
+    deckView: false,
+    addAlbumView: false,
+    // 
     albums: [],
     images: [],
     album: false,
     albumImages: [],
+    
   }
-
-    setCardDeckView = () =>{
-      this.setState({
-        cardDeckView: true,
-        albumFormView: false,
-        swiperView: false,
-        albumPicsView: false,
-      })
-      console.log('changed state to card deck')
-    }
-
-    setAlbumFormView = () =>{
-      this.setState({
-        cardDeckView: false,
-        albumFormView: true,
-        swiperView: false,
-        albumPicsView: false,
-      })
-      console.log('changed state to album form')
-    }
-
-    setSwiperView = () =>{
-      this.setState({
-        cardDeckView: false,
-        albumFormView: false,
-        swiperView: true,
-        albumPicsView: false,
-      })
-      console.log('changed state to swiper')
-    }
-
-    setAlbumPicsView = (album) =>{
-      this.selectAlbum(album)
-      this.setState({
-        cardDeckView: false,
-        albumFormView: false,
-        swiperView: false,
-        albumPicsView: true,
-      })
-      console.log('changed state to album pics')
-    }
 
 
 
@@ -90,10 +47,14 @@ export default class App extends React.Component {
         .catch(rej)
     );
   };
-  toggleDeck = () => this.setState({ cardDeckView: !this.state.cardDeckView })
-  togglealbumFormView = () => this.setState({ albumFormView: !this.state.albumFormView })
-  toggleCreateAlbumView = () => togglealbumFormView()
+
+  toggleDeck = () => this.setState({ deckView: !this.state.deckView })
+
+  toggleAddAlbumView = () => this.setState({ addAlbumView: !this.state.addAlbumView })
+  toggleCreateAlbumView = () => toggleAddAlbumView()
   addUnsorted = (resp) => this.setState({ albums: [...this.state.albums, resp] })
+
+
   getAlbums = () => Expo.MediaLibrary.getAlbumsAsync().then(albums => this.setState({ albums }))
 
   getAlbum = () => Expo.MediaLibrary.getAlbumAsync(this.state.album.title).then(album => this.setState({ album }))
@@ -130,45 +91,35 @@ export default class App extends React.Component {
   }
 
   render() {
-      if(this.state.cardDeckView){
-        return <View style={styles.styles.slideSwipe}>
+    return (
+      this.state.deckView ?
+        <View style={styles.styles.slideSwipe}>
           <NewCardDeck
-
-            setSwiperView={this.setSwiperView}
-            setAlbumFormView={this.setAlbumFormView}
-
             toggleRenderAlbumForm={this.toggleRenderAlbumForm}
-            toggleCreateAlbumView={this.togglealbumFormView}
-            
+            toggleCreateAlbumView={this.toggleAddAlbumView}
+            toggleDeck={this.toggleDeck}
             />
-        </View>}
-
-      if(this.state.albumFormView){
-     return <View>
+        </View>
+        :
+        this.state.addAlbumView?
+     <View>
         <AddAlbumForm
-
-          setCardDeckView={this.setCardDeckView}
-
           toggleCreateAlbumView={this.toggleCreateAlbumView}
-          // toggleDeck={this.toggleDeck}
+          toggleDeck={this.toggleDeck}
           getAlbum={this.getAlbums}
           state={this.state}
         />
-      </View>}
-
-        if(this.state.album && this.state.albumPicsView){
-            return<View style={styles.styles.slideSwipe}>
+      </View> :
+        this.state.album ?
+            <View style={styles.styles.slideSwipe}>
               <NewAlbumComponent
-
-                setSwiperView={this.setSwiperView}
-                selectAlbum={this.selectAlbum}
                 deselectAlbum={this.deselectAlbum}
                 album={this.state.album}
               />
-            </View>}
-          
-          if(this.state.swiperView){
-         return <Container>
+            </View>
+          :
+          // biggest view
+          <Container>
             <Swiper
               loop={false}
               showsPagination={false}
@@ -179,19 +130,15 @@ export default class App extends React.Component {
             >
               <View style={styles.styles.slideSwipe}>
                 <AlbumListView getAlbums={this.getAlbums}
-
-                  setAlbumPicsView={this.setAlbumPicsView}
-                  setSwiperView={this.setSwiperView}
-
                   getAlbum={this.getAlbum}
                   album={this.state.album}
                   toggleDeck={this.toggleDeck}
-                  togglealbumFormView={this.togglealbumFormView}
+                  toggleAddAlbumView={this.toggleAddAlbumView}
                   albums={this.state.albums}
                   selectAlbum={this.selectAlbum}
                   deselectAlbum={this.deselectAlbum}
                   deleteAlbum={this.deleteAlbum}
-                  albumFormView={this.state.albumFormView}
+                  addAlbumView={this.state.addAlbumView}
                   state={this.state}
                   getAlbumImages={this.getAlbumImages}
                   incrementNumberOfImages={this.incrementNumberOfImages}
@@ -206,40 +153,35 @@ export default class App extends React.Component {
                 resistanceRatio={0}
               >
                 <CameraNew
-
-                  setCardDeckView={this.setCardDeckView}
-                  setSwiperView={this.setSwiperView}
-
-                  // toggleDeck={this.toggleDeck}
+                  toggleDeck={this.toggleDeck}
                   addUnsorted={this.addUnsorted}
                 />
               </Swiper>
-              
+
               {/* shared AWS stuff: DO NOT REMOVE */}
               {/* <View style={styles.styles.slideSwipe}>
                   <SharedListAlbum getAlbums={this.getAlbums}
                   getAlbum={this.getAlbum}
                   album={this.state.album}
                   toggleDeck={this.toggleDeck}
-                  togglealbumFormView={this.togglealbumFormView}
+                  toggleAddAlbumView={this.toggleAddAlbumView}
                   albums={this.state.albums}
                   selectAlbum={this.selectAlbum}
                   deselectAlbum={this.deselectAlbum}
                   deleteAlbum={this.deleteAlbum}
-                  albumFormView={this.state.albumFormView}
+                  addAlbumView={this.state.addAlbumView}
                   state={this.state}>
                   </SharedListAlbum>
                 </View>   */}
               {/* This to be reinabled when shared albums */}
             </Swiper>
           </Container>
-          }
-    
+    )
   }
 }
-// {/* // export default withAuthenticator(App, { includeGreetings: false });
-//  <----------reinable for shared albums
-// export default App */}
+{/* // export default withAuthenticator(App, { includeGreetings: false });
+ <----------reinable for shared albums
+export default App */}
 
 
 

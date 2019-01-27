@@ -39,6 +39,7 @@ export default class AlbumListView extends Component {
             >
             </AddAlbumButton> */}
             <AlbumListContainer 
+              setAlbumPicsView={this.props.setAlbumPicsView}
               albums={this.props.albums} 
               deselectAlbum={this.props.deselectAlbum} 
               selectAlbum={this.props.selectAlbum}>

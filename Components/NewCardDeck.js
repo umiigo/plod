@@ -73,7 +73,7 @@ export default class App extends Component {
                     
                 </Body>
                 <Right>
-                    <Button transparent onPress={()=> this.props.toggleDeck()}>
+                    <Button transparent onPress={() => this.props.setSwiperView()}>
                       <Label>Done</Label>
                     </Button>
                 </Right>
@@ -130,7 +130,7 @@ export default class App extends Component {
                     )}
                   )}
                       <Content>
-                        <TouchableOpacity onPress={()=>this.toggleCreateAlbumView()}>
+                        <TouchableOpacity onPress={()=>this.props.setAlbumFormView()}>
                           <Thumbnail circle medium style={{ marginHorizontal: 15, borderColor:'white', borderWidth: 2, backgroundColor:'none' }} source={require('../assets/14.png')} />
                           <Text style={{ justifyContent:'space-between', alignItems:'center', textAlign:'center' }}></Text>
                         </TouchableOpacity>

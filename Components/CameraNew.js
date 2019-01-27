@@ -316,7 +316,7 @@ export default class App extends React.Component {
           <Ionicons name="ios-radio-button-on" size={70} color="white" />
         </TouchableOpacity>
       </View> 
-      <TouchableOpacity style={styles.styles.bottomButton}  onPress={()=>this.props.toggleDeck()&&this}>
+      <TouchableOpacity style={styles.styles.bottomButton}  onPress={this.props.setCardDeckView}>
         <View>
           <Ionicons name="md-photos" size={45} color="white" />
           {this.state.newPhotos && <View style={styles.styles.newPhotosDot}/>}

@@ -34,9 +34,9 @@ export default class App extends React.Component {
         <Header transparent>
           <Left><Title>{this.props.album.title}</Title></Left>
           <Right>
-          <Button transparent onPressIn={()=>this.props.deselectAlbum()}>
-          <Title>X</Title>
-                  </Button>
+          <Button transparent onPressIn={()=>this.props.setSwiperView()}>
+            <Title>X</Title>
+          </Button>
           </Right>
         </Header>
         <Gallery 

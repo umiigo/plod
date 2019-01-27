@@ -87,26 +87,24 @@ export default class AddAlbumForm extends Component {
             <Title>Create Album </Title>
           </Body>
           <Right>
-            <Button transparent onPress={()=>this.props.toggleDeck()}>
+            <Button transparent onPress={() => this.props.setCardDeckView()&&this}>
               <Text>Cancel</Text>
             </Button>
           </Right>
         </Header>
-        <Header transparent />
-        <Container>
         <Content>
            <Item regular >
               <Input placeholder='Enter New Album Name'onChangeText={(e)=>(this.setState({albumName: e}))} />              
             </Item>
             <Header transparent/>
             <Body flexDirection= "row" justifyContent= "center">
-            <Button block  info onPress={()=>(this.createAlbum())}>
+            <Button block info onPress={()=>(this.createAlbum())}>
               <Text>Create New Album</Text>
             </Button>
             </Body>
         </Content>
         </Container>
-      </Container>
+
     );
   }
 }

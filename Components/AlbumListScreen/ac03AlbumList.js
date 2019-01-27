@@ -14,9 +14,12 @@ export default class AlbumListContainer extends Component {
   albumSelector = (album) => {
     if (this.props.album){
       this.props.deselectAlbum()
-      this.props.selectAlbum(album)
+      this.props.setAlbumPicsView(album)
+      // this.props.selectAlbum(album)
     }else{
-      this.props.selectAlbum(album)
+      this.props.setAlbumPicsView(album)
+
+      // this.props.selectAlbum(album)
     }
   }
 
