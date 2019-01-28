@@ -109,7 +109,18 @@ const List = ({ hasMore, images, onSelectImage, onEndReached }) => {
 const Item = ({ uri, onPress }) => (
   <TouchableOpacity style={styles.touchable} onPress={onPress}>
     <Card>
-        
+    <CardItem>
+          <Left>
+            {/* <Button transparent>
+              <Icon active name="cloud-circle" style={{fontSize: 30}} />
+            </Button> */}
+          </Left>
+          <Right>
+            {/* <Button transparent>
+              <Icon active name="share" style={{fontSize: 30}} />
+            </Button> */}
+          </Right>
+           </CardItem>
         <CardItem cardBody>
           <Image source={{uri}} style={{
               flex: 1,
@@ -119,14 +130,14 @@ const Item = ({ uri, onPress }) => (
         </CardItem>
         <CardItem>
           <Left>
-            <Button transparent>
+            {/* <Button transparent>
               <Icon active name="cloud-circle" style={{fontSize: 30}} />
-            </Button>
+            </Button> */}
           </Left>
           <Right>
-            <Button transparent>
+            {/* <Button transparent>
               <Icon active name="share" style={{fontSize: 30}} />
-            </Button>
+            </Button> */}
           </Right>
            </CardItem>
       </Card>
@@ -147,7 +158,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    // backgroundColor: '#ecf0f1',
+    backgroundColor: '#fff',
   },
   touchable: {
     flex: 1,

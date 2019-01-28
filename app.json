@@ -4,6 +4,7 @@
     "slug": "app",
     "privacy": "public",
     "sdkVersion": "31.0.0",
+    "bundleIdentifier": "com.yourcompany.umico",
     "platforms": [
       "ios",
       "android"

@@ -67,10 +67,8 @@ export default class AddAlbumForm extends Component {
   }
 
   createAlbum = () => Expo.MediaLibrary.createAlbumAsync(this.state.albumName)
-    .then(() => {
-    this.props.toggleCreateAlbumView()
-    this.props.toggleDeck()
-    this.props.getAlbums()
+    .then((data) => {
+    this.props.setCardDeckView()
     // this.handleSubmit()    < --------- Remember to reinable when adding shared albums
     alert(this.state.albumName + ' created')
     })

@@ -8,7 +8,7 @@ export default class AlbumListHeader extends Component {
         <Header>
             <Body>
                 <Title>
-                    Private Albums
+                    Your Albums
                 </Title>
             </Body>
         </Header>

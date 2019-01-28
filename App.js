@@ -147,7 +147,6 @@ export default class App extends React.Component {
      return <AddAlbumForm
           setCardDeckView={this.setCardDeckView}
           toggleCreateAlbumView={this.toggleCreateAlbumView}
-          // toggleDeck={this.toggleDeck}
           getAlbum={this.getAlbums}
           state={this.state}
         />

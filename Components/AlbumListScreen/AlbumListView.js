@@ -42,7 +42,8 @@ export default class AlbumListView extends Component {
               setAlbumPicsView={this.props.setAlbumPicsView}
               albums={this.props.albums} 
               deselectAlbum={this.props.deselectAlbum} 
-              selectAlbum={this.props.selectAlbum}>
+              selectAlbum={this.props.selectAlbum}
+              deleteAlbum={this.props.deleteAlbum}>
             </AlbumListContainer>
         </Container>
       </View> 
