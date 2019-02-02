@@ -4,7 +4,7 @@
     "description": "The simplest way to organize photos.",
     "slug": "the-photo-organizer-app",
     "sdkVersion": "31.0.0",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "privacy": "public",
     "icon": "./assets/icon.png",
