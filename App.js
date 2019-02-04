@@ -33,6 +33,7 @@ export default class App extends React.Component {
     album: false,
     albumImages: [],
   }
+  
 
     setCardDeckView = () =>{
       this.setState({
@@ -132,84 +133,89 @@ export default class App extends React.Component {
   render() {
       if(this.state.cardDeckView){
         return <View style={styles.styles.slideSwipe}>
-          <NewCardDeck
+                  <NewCardDeck
 
-            setSwiperView={this.setSwiperView}
-            setAlbumFormView={this.setAlbumFormView}
+                    setSwiperView={this.setSwiperView}
+                    setAlbumFormView={this.setAlbumFormView}
 
-            toggleRenderAlbumForm={this.toggleRenderAlbumForm}
-            toggleCreateAlbumView={this.togglealbumFormView}
-            
-            />
-        </View>}
+                    toggleRenderAlbumForm={this.toggleRenderAlbumForm}
+                    toggleCreateAlbumView={this.togglealbumFormView}
+                    
+                    />
+              </View>
+        }
 
       if(this.state.albumFormView){
-     return <AddAlbumForm
-          setCardDeckView={this.setCardDeckView}
-          toggleCreateAlbumView={this.toggleCreateAlbumView}
-          getAlbum={this.getAlbums}
-          state={this.state}
-        />
-      }
+        return <AddAlbumForm setCardDeckView={this.setCardDeckView}
+                  toggleCreateAlbumView={this.toggleCreateAlbumView}
+                  getAlbum={this.getAlbums}
+                  state={this.state}
+               />
+        }
 
-        if(this.state.album && this.state.albumPicsView){
-            return<View style={styles.styles.slideSwipe}>
-              <NewAlbumComponent
+      if(this.state.album && this.state.albumPicsView){
+        return<View style={styles.styles.slideSwipe}>
+                <NewAlbumComponent
 
-                setSwiperView={this.setSwiperView}
-                selectAlbum={this.selectAlbum}
-                deselectAlbum={this.deselectAlbum}
-                album={this.state.album}
-              />
-            </View>}
+                  setSwiperView={this.setSwiperView}
+                  selectAlbum={this.selectAlbum}
+                  deselectAlbum={this.deselectAlbum}
+                  album={this.state.album}
+                />
+            </View>
+        }
           
-          if(this.state.swiperView){
+      if(this.state.swiperView){
          return <Container>
-            <Swiper
-              loop={false}
+            <Swiper loop={false}
               showsPagination={false}
               index={0}
               bounces={false}
               resistance={true}
               resistanceRatio={0}
             >
-              <View style={styles.styles.slideSwipe}>
-                <AlbumListView getAlbums={this.getAlbums}
 
-                  setAlbumPicsView={this.setAlbumPicsView}
-                  setSwiperView={this.setSwiperView}
+                <Swiper
+                  loop={false}
+                  showsPagination={false}
+                  index={0}
+                  bounces={false}
+                  resistance={true}
+                  resistanceRatio={0}
+                >
+                  <CameraNew
 
-                  getAlbum={this.getAlbum}
-                  album={this.state.album}
-                  toggleDeck={this.toggleDeck}
-                  togglealbumFormView={this.togglealbumFormView}
-                  albums={this.state.albums}
-                  selectAlbum={this.selectAlbum}
-                  deselectAlbum={this.deselectAlbum}
-                  deleteAlbum={this.deleteAlbum}
-                  albumFormView={this.state.albumFormView}
-                  state={this.state}
-                  getAlbumImages={this.getAlbumImages}
-                  incrementNumberOfImages={this.incrementNumberOfImages}
-                />
-              </View>
-              <Swiper
-                loop={false}
-                showsPagination={false}
-                index={0}
-                bounces={false}
-                resistance={true}
-                resistanceRatio={0}
-              >
-                <CameraNew
+                    setCardDeckView={this.setCardDeckView}
+                    setSwiperView={this.setSwiperView}
 
-                  setCardDeckView={this.setCardDeckView}
-                  setSwiperView={this.setSwiperView}
+                    // toggleDeck={this.toggleDeck}
+                    addUnsorted={this.addUnsorted}
+                  />
+                </Swiper>
 
-                  // toggleDeck={this.toggleDeck}
-                  addUnsorted={this.addUnsorted}
-                />
-              </Swiper>
+
+                <View style={styles.styles.slideSwipe}>
+                  <AlbumListView getAlbums={this.getAlbums}
+
+                    setAlbumPicsView={this.setAlbumPicsView}
+                    setSwiperView={this.setSwiperView}
+
+                    getAlbum={this.getAlbum}
+                    album={this.state.album}
+                    toggleDeck={this.toggleDeck}
+                    togglealbumFormView={this.togglealbumFormView}
+                    albums={this.state.albums}
+                    selectAlbum={this.selectAlbum}
+                    deselectAlbum={this.deselectAlbum}
+                    deleteAlbum={this.deleteAlbum}
+                    albumFormView={this.state.albumFormView}
+                    state={this.state}
+                    getAlbumImages={this.getAlbumImages}
+                    incrementNumberOfImages={this.incrementNumberOfImages}
+                  />
+                </View>
+
+            
               
               {/* shared AWS stuff: DO NOT REMOVE */}
               {/* <View style={styles.styles.slideSwipe}>

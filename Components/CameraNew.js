@@ -90,12 +90,13 @@ export default class App extends React.Component {
   
 
   async componentWillMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA) && await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    this.setState({ permissionsGranted: status === 'granted' });
+  
   }
 
  async componentDidMount() {
-    this.getCameraPermissions();
+  const { status } = await Permissions.askAsync(Permissions.CAMERA) && await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  this.setState({ permissionsGranted: status === 'granted' });
+    //this.getCameraPermissions();
      await MediaLibrary.getAlbumAsync('Unsorted').then(resp=>this.setState({unsortedAlbum: resp}))
      !this.state.unsortedAlbum? 
       await MediaLibrary.createAlbumAsync('Unsorted').then(resp=>{
@@ -116,30 +117,30 @@ export default class App extends React.Component {
  
 
 
-  async getCameraPermissions() {
-    const { Permissions } = Expo;
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    if (status === 'granted') {
-      this.setState({ cameraGranted: true });
-      this.setState({permissionsGranted: status === 'granted'});
-    } else {
-      this.setState({ cameraGranted: false });
-      this.setState({permissionsGranted: false});
-      console.log('Uh oh! The user has not granted us permission.');
-    }
-    this.getCameraRollPermissions();
-  }
+  // async getCameraPermissions() {
+  //   const { Permissions } = Expo;
+  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  //   if (status === 'granted') {
+  //     this.setState({ cameraGranted: true });
+  //     this.setState({permissionsGranted: status === 'granted'});
+  //   } else {
+  //     this.setState({ cameraGranted: false });
+  //     this.setState({permissionsGranted: false});
+  //     console.log('Uh oh! The user has not granted us permission.');
+  //   }
+  //   this.getCameraRollPermissions();
+  // }
 
-  async getCameraRollPermissions() {
-    const { Permissions } = Expo;
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === 'granted') {
-      this.setState({ rollGranted: true, permissionsGranted: true })
-    } else {
-      console.log('Uh oh! The user has not granted us permission.');
-      this.setState({ rollGranted: false, permissionsGranted: false  })
-    }
-  }
+  // async getCameraRollPermissions() {
+  //   const { Permissions } = Expo;
+  //   const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  //   if (status === 'granted') {
+  //     this.setState({ rollGranted: true, permissionsGranted: true })
+  //   } else {
+  //     console.log('Uh oh! The user has not granted us permission.');
+  //     this.setState({ rollGranted: false, permissionsGranted: false  })
+  //   }
+  // }
 
   takePictureAndAddToAlbum = async () => {
     const { uri } = await this.camera.takePictureAsync();
