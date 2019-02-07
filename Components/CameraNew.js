@@ -88,11 +88,6 @@ export default class App extends React.Component {
   };
 
   
-
-  async componentWillMount() {
-  
-  }
-
  async componentDidMount() {
   const { status } = await Permissions.askAsync(Permissions.CAMERA) && await Permissions.askAsync(Permissions.CAMERA_ROLL);
   this.setState({ permissionsGranted: status === 'granted' });
