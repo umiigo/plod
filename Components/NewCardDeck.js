@@ -16,7 +16,7 @@ import {
 } from '@expo/vector-icons';
 
 import { Container, Content, Icon, Thumbnail, Label, Header, Left, Right, Body, Title, Button } from 'native-base'
-import Card from './NewCard'
+import NewCard from './NewCard'
 
 export default class App extends Component {
   getUnsortedAlbum = () => Expo.MediaLibrary.getAlbumAsync('Unsorted').then(album=> this.setState({album}))
@@ -93,7 +93,7 @@ export default class App extends Component {
         <View style={{flex:8}}>
           {this.state.images.slice(imageIndex, imageIndex + 3).reverse().map((image) => {
           return (
-            <Card
+            <NewCard
             key={image.id}
             image={image}
             onSwipeOff={this.nextCard}

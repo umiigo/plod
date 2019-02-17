@@ -11,14 +11,15 @@ export default class AlbumListView extends Component {
 
     state={
       albums: (this.props.state.albums),
-      album: (this.props.state.album)
+      album: (this.props.state.album),
     }
 
-    componentDidMount () {
-        this.props.getAlbums()
+    async componentDidMount () {
+      this.props.getAlbums();
     }
 
     componentDidUpdate(nextProps, nextState){
+      this.props.getAlbums();
     if (nextState.albums!==this.state.albums){
       this.props.getAlbums()
     }

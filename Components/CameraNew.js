@@ -105,6 +105,7 @@ export default class App extends React.Component {
 
   componentWillUpdate(){
       this.getUnsortedAlbum()
+      
   }
 
   getUnsortedAlbum = () => 

@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "The Photo Organizer App",
-    "description": "The simplest way to organize photos.",
+    "name": "PicPlod",
+    "description": "organize photos one at a time!",
     "slug": "the-photo-organizer-app",
     "sdkVersion": "31.0.0",
-    "version": "1.0.2",
+    "version": "1.0.23",
     "orientation": "portrait",
-    "privacy": "public",
+    "privacy": "unlisted",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
